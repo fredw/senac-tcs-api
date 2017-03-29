@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 20170328232810) do
   enable_extension "uuid-ossp"
   enable_extension "pgcrypto"
 
-  create_table "customers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "customers", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.string "name"
     t.boolean "active"
     t.datetime "created_at", null: false
