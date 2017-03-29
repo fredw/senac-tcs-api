@@ -6,4 +6,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :timeoutable,
          :jwt_authenticatable, jwt_revocation_strategy: self
+
+  belongs_to :customer
 end

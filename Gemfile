@@ -21,6 +21,8 @@ gem 'active_model_serializers', '~> 0.10.5'
 gem 'devise'
 gem 'jwt'
 gem 'devise-jwt', '~> 0.1.1'
+# Authorization
+gem 'pundit'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
