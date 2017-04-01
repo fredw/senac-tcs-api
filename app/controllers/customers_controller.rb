@@ -4,7 +4,8 @@ class CustomersController < ApplicationController
 
   # GET /customers
   def index
-    @customers = Customer.all
+    @customers = policy_scope(Customer.all)
+    authorize Customer
     render json: @customers
   end
 
@@ -16,6 +17,7 @@ class CustomersController < ApplicationController
   # POST /customers
   def create
     @customer = Customer.new(customer_params)
+    authorize @customer
     if @customer.save
       render json: @customer, status: :created, location: @customer
     else
@@ -41,10 +43,11 @@ class CustomersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_customer
       @customer = Customer.find(params[:id])
+      authorize @customer
     end
 
     # Only allow a trusted parameter "white list" through.
     def customer_params
-      params.fetch(:customer, {})
+      params.fetch(:customer, {}).permit(:name, :active)
     end
 end

@@ -8,4 +8,17 @@ class User < ApplicationRecord
          :jwt_authenticatable, jwt_revocation_strategy: self
 
   belongs_to :customer
+  belongs_to :role
+
+  before_create :set_default_role
+
+  def admin?
+    self.role.symbol == Role.symbols.fetch(:admin)
+  end
+
+  private
+
+    def set_default_role
+      self.role ||= Role.find_by_symbol(Role.symbols.fetch(:user))
+    end
 end
