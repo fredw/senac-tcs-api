@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
 
-  #devise_for :users, path: 'auth', defaults: { format: :json }
-  mount_devise_token_auth_for 'User', at: 'auth'
+  devise_for :users, path: 'auth', defaults: { format: :json }, controllers: {
+      registrations: 'users/registrations'
+  }
 
   resources :users
-
+  resources :customers
 end

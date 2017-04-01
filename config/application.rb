@@ -31,6 +31,8 @@ module SenacTcsApi
     config.api_only = true
 
     # Set default primary key as uuid
-    config.active_record.primary_key = :uuid
+    config.generators do |g|
+      g.orm :active_record, primary_key_type: :uuid
+    end
   end
 end

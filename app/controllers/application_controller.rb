@@ -1,12 +1,36 @@
 class ApplicationController < ActionController::API
-  include DeviseTokenAuth::Concerns::SetUserByToken
 
-  before_action :configure_permitted_parameters, if: :devise_controller?
+  include Pundit
+  after_action :verify_authorized
+  after_action :verify_policy_scoped, only: :index
+  before_action :check_customer_active
+
+  respond_to :json
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  rescue_from ActiveRecord::ActiveRecordError, with: :active_record_error
 
   protected
 
-    def configure_permitted_parameters
-      devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
-      devise_parameter_sanitizer.permit(:account_update, keys: [:name])
+    # Check authorization for all requests
+    def check_customer_active
+      authorize :app
+    end
+
+    # Pundit - NotAuthorizedError
+    def user_not_authorized(exception)
+      policy_name = exception.policy.class.to_s
+      message = 'Unauthorized route!'
+      message = 'Customer unauthorized! Please, contact the administrators' if policy_name == 'AppPolicy'
+      render_exception(message, :unauthorized)
+    end
+
+    # Active record error
+    def active_record_error(exception)
+      render_exception(exception.message, :not_found)
+    end
+
+    # Render exception
+    def render_exception(message, status)
+      render :json => {error: message}, :status => status
     end
 end

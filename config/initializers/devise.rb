@@ -1,6 +1,12 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
+
+  config.jwt do |jwt|
+    jwt.secret = 'ab46eed99d67a2147a0386c9854a9fbe789971b5646bc8a9ffeaeb20c9b85af1372b5c10bb0b552fc6fcccf2fdb17d75d74f859d7c3e6d843da40804dca131db'
+    jwt.expiration_time = 24.hours
+  end
+
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
@@ -240,6 +246,7 @@ Devise.setup do |config|
   #
   # The "*/*" below is required to match Internet Explorer requests.
   # config.navigational_formats = ['*/*', :html]
+  config.navigational_formats = []
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete

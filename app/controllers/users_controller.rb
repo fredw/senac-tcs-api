@@ -4,7 +4,8 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = User.all
+    @users = policy_scope(User)
+    authorize User
     render json: @users
   end
 
@@ -31,10 +32,11 @@ class UsersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
+      authorize @user
     end
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.fetch(:user, {})
+      params.fetch(:user, {}).permit(:name, :role_id)
     end
 end
