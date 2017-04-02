@@ -13,7 +13,7 @@ class ApplicationController < ActionController::API
 
     # Check authorization for all requests
     def check_customer_active
-      authorize :app
+      authorize :app if user_signed_in?
     end
 
     # Pundit - NotAuthorizedError
