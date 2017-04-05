@@ -1,15 +1,22 @@
 class Rack::Attack
+
   # Always allow requests from localhost
   safelist('allow-localhost') do |req|
-    '127.0.0.1' == req.ip || '::1' == req.ip
+   '127.0.0.1' == req.ip || '::1' == req.ip
   end
 
   # Throttle requests to 5 requests per second per ip
-  throttle('req/ip', :limit => 1, :period => 1.second) do |req|
-    req.ip
+  throttle('req/ip', :limit => 10, :period => 1.second) do |req|
+    #req.ip
+    true
   end
 
-  # Rate-limit
+  # Blocked response
+  self.blocklisted_response = lambda do |env|
+    [ 403, {'Content-Type' => 'application/json'}, [{error: 'Blocked.'}.to_json]]
+  end
+
+  # Rate-limit response
   self.throttled_response = lambda do |env|
     now = Time.now
     match_data = env['rack.attack.match_data']
