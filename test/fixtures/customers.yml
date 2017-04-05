@@ -1,8 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-admin:
-  name: Admin
-  symbol: 0
+ddf:
+  name: DDF
+  active: true
 
-user:
-  name: User
-  symbol: 1
+other:
+  name: Other
+  active: true
