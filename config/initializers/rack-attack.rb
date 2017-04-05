@@ -1,14 +1,15 @@
 class Rack::Attack
 
+  Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
+
   # Always allow requests from localhost
   safelist('allow-localhost') do |req|
    '127.0.0.1' == req.ip || '::1' == req.ip
   end
 
   # Throttle requests to 5 requests per second per ip
-  throttle('req/ip', :limit => 10, :period => 1.second) do |req|
-    #req.ip
-    true
+  throttle('req/ip', :limit => 10, :period => 10.second) do |req|
+    req.ip
   end
 
   # Blocked response
