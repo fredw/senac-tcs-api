@@ -5,6 +5,11 @@ Water Reservoir API
 [![Documentation](https://img.shields.io/badge/doccumentation-ok-blue.svg)](http://docs.senactcsapi.apiary.io/)
 
 
+Tests
+------------------------------------------------------------
+    rspec
+
+
 Credits
 ------------------------------------------------------------
 
