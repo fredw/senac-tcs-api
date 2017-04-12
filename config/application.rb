@@ -38,5 +38,7 @@ module SenacTcsApi
     # Midllewares
     config.middleware.use Rack::Attack
 
+    config.autoload_paths += %W(#{config.root}/lib)
+
   end
 end

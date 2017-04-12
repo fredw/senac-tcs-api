@@ -1,6 +1,9 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  config.web_url = 'http://localhost:8080/'
+  config.web_password_edit_url = config.web_url + 'password/edit'
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 

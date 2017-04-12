@@ -1,23 +1,23 @@
 class UserPolicy < ApplicationPolicy
 
   def index?
-    user.admin?
+    user&.admin?
   end
 
   def show?
-    user.admin? || user.id == record.id
+    user&.admin? || user&.id == record.id
   end
 
   def create?
-    user.admin?
+    user&.admin?
   end
 
   def update?
-    user.admin?
+    user&.admin?
   end
 
   def destroy?
-    user.admin?
+    user&.admin?
   end
 
   class Scope < Scope
