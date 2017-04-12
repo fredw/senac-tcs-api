@@ -34,5 +34,11 @@ module SenacTcsApi
     config.generators do |g|
       g.orm :active_record, primary_key_type: :uuid
     end
+
+    # Midllewares
+    config.middleware.use Rack::Attack
+
+    config.autoload_paths += %W(#{config.root}/lib)
+
   end
 end

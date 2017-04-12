@@ -7,6 +7,11 @@ class User < ApplicationRecord
          :confirmable, :timeoutable,
          :jwt_authenticatable, jwt_revocation_strategy: self
 
+  validates :email,
+            length: { maximum: 255 },
+            :uniqueness => { case_sensitive: false }
+  validates :name, presence: true
+
   belongs_to :customer
   belongs_to :role
 

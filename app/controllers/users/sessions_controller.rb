@@ -3,6 +3,16 @@ class Users::SessionsController < Devise::SessionsController
 
   def destroy
     skip_authorization
-    render json: ['Signed out']
+    #super
+    if user_signed_in?
+      current_user.save
+      render json: { success: 'Signed out' }, status: :ok
+    else
+      throw(:warden)
+    end
+  end
+
+  def respond_with(resource, opts = {})
+    render json: resource
   end
 end
