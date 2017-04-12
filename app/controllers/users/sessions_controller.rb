@@ -12,7 +12,7 @@ class Users::SessionsController < Devise::SessionsController
     end
   end
 
-  def respond_with(resource, opts = {})
+  def respond_with(resource, _opts = {})
     render json: resource
   end
 end
