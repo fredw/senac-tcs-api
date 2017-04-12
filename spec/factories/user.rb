@@ -6,7 +6,7 @@ FactoryGirl.define do
     password_confirmation 'password'
     confirmed_at Date.today
     association :role, factory: :role_user
-    association :customer
+    customer { Customer.first || association(:customer) }
 
     factory :user_admin do
       association :role, factory: :role_admin
