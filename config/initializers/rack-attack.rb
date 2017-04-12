@@ -13,7 +13,7 @@ class Rack::Attack
   end
 
   # Blocked response
-  self.blocklisted_response = lambda do |env|
+  self.blocklisted_response = lambda do |_env|
     [ 403, {'Content-Type' => 'application/json'}, [{error: 'Blocked.'}.to_json]]
   end
 
