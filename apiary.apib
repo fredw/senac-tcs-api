@@ -1,0 +1,73 @@
+FORMAT: 1A
+HOST: http://senac-tcs-api.herokuapp.com/
+
+# Senac TCS API
+
+Water reservoir API.
+
+## Users [/users]
+
+### List All Users [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": "3f65fe3f-de3f-45c5-9df5-3152e11f3fe4",
+                "name": "User name",
+                "email": "email@example.com",
+                "created_at": "2017-03-30T02:56:04.982Z",
+                "updated_at": "2017-03-30T02:56:04.982Z",
+                "customer": {
+                    "id": "c03126c3-fe53-4ab8-91e9-b7b4dc631c0e",
+                    "name": "Customer name",
+                    "active": true,
+                    "created_at": "2017-03-30T02:56:04.666Z",
+                    "updated_at": "2017-03-30T02:56:04.666Z"
+                },
+                "role": {
+                    "id": "f6be31c0-e56c-416d-a3d0-caf26319a534",
+                    "name": "Admin",
+                    "symbol": 0
+                }
+            }
+        ]
+
+### Create a New User [POST]
+
++ Request (application/json)
+
+        {
+            "user": {
+                "name": "User name",
+                "email": "email@example.com",
+                "password": "1234567",
+                "password_confirmation": "1234567",
+                "customer_id": "c03126c3-fe53-4ab8-91e9-b7b4dc631c0e",
+                "role_id": "fbc0faca-360d-4ea5-93d6-06ab78845268"
+            }
+        }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "id": "df99ca98-5bdd-4598-870f-e76fc27aa3bc",
+                "name": "User name",
+                "email":  "email@example.com",
+                "created_at": "2017-04-02T23:06:51.082Z",
+                "updated_at": "2017-04-02T23:06:51.082Z",
+                "customer": {
+                    "id": "c03126c3-fe53-4ab8-91e9-b7b4dc631c0e",
+                    "name": "Customer name",
+                    "active": true,
+                    "created_at": "2017-03-30T02:56:04.666Z",
+                    "updated_at": "2017-03-30T02:56:04.666Z"
+                },
+                "role": {
+                    "id": "fbc0faca-360d-4ea5-93d6-06ab78845268",
+                    "name": "User",
+                    "symbol": 1
+                }
+            }
