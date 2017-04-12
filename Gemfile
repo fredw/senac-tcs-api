@@ -45,4 +45,6 @@ group :test do
   gem 'shoulda-matchers'
   gem 'faker'
   gem 'database_cleaner'
+  gem 'simplecov', :require => false
+  gem 'codacy-coverage', :require => false
 end
