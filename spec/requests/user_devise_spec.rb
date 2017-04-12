@@ -196,14 +196,29 @@ RSpec.describe 'User Devise', type: :request do
   end
 
   describe 'POST /users/sign_out' do
-    before { delete '/users/sign_out', headers: headers_user }
 
-    it 'returns no content' do
-      expect(json['success']).to eq('Signed out')
+    context 'when user signed in' do
+      before { delete '/users/sign_out', headers: headers_user }
+
+      it 'returns no content' do
+        expect(json['success']).to eq('Signed out')
+      end
+
+      it 'returns status code 200 OK' do
+        expect(response).to have_http_status(:ok)
+      end
     end
 
-    it 'returns status code 200 OK' do
-      expect(response).to have_http_status(:ok)
+    context 'when user is not signed in' do
+      before { delete '/users/sign_out', headers: {'Content-Type': 'application/json'} }
+
+      it 'returns invalid token' do
+        expect(json['error']).to eq('Invalid token')
+      end
+
+      it 'returns status code 401 Unauthorized' do
+        expect(response).to have_http_status(:unauthorized)
+      end
     end
   end
 

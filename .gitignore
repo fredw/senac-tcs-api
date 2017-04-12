@@ -7,6 +7,9 @@
 # RubyMine
 .idea/
 
+# Coverage
+coverage
+
 # Ignore bundler config.
 /.bundle
 
