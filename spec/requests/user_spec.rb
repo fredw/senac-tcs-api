@@ -23,6 +23,22 @@ RSpec.describe 'User', type: :request do
       end
     end
 
+    context 'when paginated' do
+      before { get '/users?page=1&per_page=2', headers: headers_admin }
+
+      it 'returns paginated users' do
+        expect(json.size).to eq(2)
+      end
+
+      it 'returns total records header' do
+        expect(response.headers['Total']).to eq('11')
+      end
+
+      it 'returns total per page header' do
+        expect(response.headers['Per-Page']).to eq('2')
+      end
+    end
+
     context 'when user is not and admin' do
       before { get '/users', headers: headers_user }
       it 'returns status code 401 Unauthorized' do

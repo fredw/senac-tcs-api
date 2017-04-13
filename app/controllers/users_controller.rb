@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   def index
     @users = policy_scope(User)
     authorize User
-    render json: @users
+    paginate json: @users
   end
 
   # GET /users/1
