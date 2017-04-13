@@ -6,7 +6,7 @@ class CustomersController < ApplicationController
   def index
     @customers = policy_scope(Customer.all)
     authorize Customer
-    render json: @customers
+    paginate json: @customers
   end
 
   # GET /customers/1

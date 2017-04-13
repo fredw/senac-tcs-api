@@ -43,6 +43,7 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    api-pagination (4.5.2)
     arel (8.0.0)
     bcrypt (3.1.11)
     builder (3.2.3)
@@ -86,6 +87,18 @@ GEM
     json (2.0.4)
     jsonapi-renderer (0.1.2)
     jwt (1.5.6)
+    kaminari (1.0.1)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.0.1)
+      kaminari-activerecord (= 1.0.1)
+      kaminari-core (= 1.0.1)
+    kaminari-actionview (1.0.1)
+      actionview
+      kaminari-core (= 1.0.1)
+    kaminari-activerecord (1.0.1)
+      activerecord
+      kaminari-core (= 1.0.1)
+    kaminari-core (1.0.1)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -200,6 +213,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers (~> 0.10.5)
+  api-pagination
   bcrypt (~> 3.1.7)
   byebug
   codacy-coverage
@@ -209,6 +223,7 @@ DEPENDENCIES
   factory_girl_rails
   faker
   jwt
+  kaminari
   listen (>= 3.0.5, < 3.2)
   pg (~> 0.18)
   puma (~> 3.7)

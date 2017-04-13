@@ -25,6 +25,9 @@ gem 'devise-jwt', '~> 0.1.1'
 gem 'pundit'
 # Rack middleware for blocking & throttling
 gem 'rack-attack'
+# Pagination
+gem 'kaminari'
+gem 'api-pagination'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

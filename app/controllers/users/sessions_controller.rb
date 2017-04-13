@@ -3,7 +3,6 @@ class Users::SessionsController < Devise::SessionsController
 
   def destroy
     skip_authorization
-    #super
     if user_signed_in?
       current_user.save
       render json: { success: 'Signed out' }, status: :ok

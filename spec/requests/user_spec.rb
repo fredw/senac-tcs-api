@@ -15,11 +15,27 @@ RSpec.describe 'User', type: :request do
       before { get '/users', headers: headers_admin }
 
       it 'returns users' do
-        expect(json.size).to eq(11)
+        expect(json['data'].size).to eq(11)
       end
 
       it 'returns status code 200 Success' do
         expect(response).to have_http_status(:success)
+      end
+    end
+
+    context 'when paginated' do
+      before { get '/users?page=1&per_page=2', headers: headers_admin }
+
+      it 'returns paginated users' do
+        expect(json.size).to eq(2)
+      end
+
+      it 'returns total records header' do
+        expect(response.headers['Total']).to eq('11')
+      end
+
+      it 'returns total per page header' do
+        expect(response.headers['Per-Page']).to eq('2')
       end
     end
 
@@ -38,7 +54,7 @@ RSpec.describe 'User', type: :request do
 
       it 'returns the user' do
         expect(json).not_to be_empty
-        expect(json['id']).to eq(user_id)
+        expect(json['data']['id']).to eq(user_id)
       end
 
       it 'returns status code 200 Success' do
@@ -83,7 +99,7 @@ RSpec.describe 'User', type: :request do
       before { put "/users/#{user_id}", params: valid_params, headers: headers_admin }
 
       it 'updates the record' do
-        expect(json['name']).to eq('New Name')
+        expect(json['data']['attributes']['name']).to eq('New Name')
       end
 
       it 'returns status code 200 OK' do
