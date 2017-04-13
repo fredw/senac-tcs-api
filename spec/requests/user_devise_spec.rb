@@ -38,9 +38,9 @@ RSpec.describe 'User Devise', type: :request do
       before { post '/users', params: valid_params, headers: headers_admin }
 
       it 'creates a user' do
-        expect(json['id']).not_to be_nil
-        expect(json['name']).to eq(valid_user[:name])
-        expect(json['email']).to eq(valid_user[:email])
+        expect(json['data']['id']).not_to be_nil
+        expect(json['data']['attributes']['name']).to eq(valid_user[:name])
+        expect(json['data']['attributes']['email']).to eq(valid_user[:email])
       end
 
       it 'returns status code 200 OK' do
@@ -166,9 +166,9 @@ RSpec.describe 'User Devise', type: :request do
       before { post '/users/sign_in', params: valid_params }
 
       it 'returns no content' do
-        expect(json['id']).to eq(user.id)
-        expect(json['email']).to eq(user.email)
-        expect(json['name']).to eq(user.name)
+        expect(json['data']['id']).to eq(user.id)
+        expect(json['data']['attributes']['email']).to eq(user.email)
+        expect(json['data']['attributes']['name']).to eq(user.name)
       end
 
       it 'returns status code 200 OK' do
@@ -259,9 +259,9 @@ RSpec.describe 'User Devise', type: :request do
       before { put '/users/password', params: valid_params, headers: headers_user }
 
       it 'updates the password' do
-        expect(json['id']).to eq(user.id)
-        expect(json['name']).to eq(user.name)
-        expect(json['email']).to eq(user.email)
+        expect(json['data']['id']).to eq(user.id)
+        expect(json['data']['attributes']['name']).to eq(user.name)
+        expect(json['data']['attributes']['email']).to eq(user.email)
       end
 
       it 'returns status code 200 OK' do
@@ -292,8 +292,8 @@ RSpec.describe 'User Devise', type: :request do
       before { put '/users', params: valid_params, headers: headers_user }
 
       it 'returns the user' do
-        expect(json['id']).to eq(user['id'])
-        expect(json['name']).to eq('New name')
+        expect(json['data']['id']).to eq(user['id'])
+        expect(json['data']['attributes']['name']).to eq('New name')
       end
 
       it 'returns status code 200 OK' do

@@ -14,7 +14,7 @@ RSpec.describe 'Customer', type: :request do
       before { get '/customers', headers: headers_admin }
 
       it 'returns customers' do
-        expect(json.size).to eq(10)
+        expect(json['data'].size).to eq(10)
       end
 
       it 'returns status code 200 Success' do
@@ -53,7 +53,7 @@ RSpec.describe 'Customer', type: :request do
 
       it 'returns the customer' do
         expect(json).not_to be_empty
-        expect(json['id']).to eq(customer_id)
+        expect(json['data']['id']).to eq(customer_id)
       end
 
       it 'returns status code 200 Success' do
@@ -90,8 +90,8 @@ RSpec.describe 'Customer', type: :request do
       before { post '/customers', params: valid_params, headers: headers_admin }
 
       it 'creates a customer' do
-        expect(json['name']).to eq('Customer A')
-        expect(json['active']).to eq(true)
+        expect(json['data']['attributes']['name']).to eq('Customer A')
+        expect(json['data']['attributes']['active']).to eq(true)
       end
 
       it 'returns status code 201 Created' do
@@ -139,8 +139,8 @@ RSpec.describe 'Customer', type: :request do
       before { put "/customers/#{customer_id}", params: valid_params, headers: headers_admin }
 
       it 'updates the record' do
-        expect(json['name']).to eq('Customer X')
-        expect(json['active']).to eq(true)
+        expect(json['data']['attributes']['name']).to eq('Customer X')
+        expect(json['data']['attributes']['active']).to eq(true)
       end
 
       it 'returns status code 200 OK' do
