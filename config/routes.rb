@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :reservoirs
+  resources :reservoir_groups
   devise_for :users,
     defaults: { format: :json },
     failure_app: 'CustomFailure',
