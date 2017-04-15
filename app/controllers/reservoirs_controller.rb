@@ -1,9 +1,11 @@
 class ReservoirsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_reservoir, only: [:show, :update, :destroy]
 
   # GET /reservoirs
   def index
-    @reservoirs = Reservoir.all
+    @reservoirs = policy_scope(Reservoir.all)
+    authorize Reservoir
     render json: @reservoirs
   end
 
@@ -15,6 +17,7 @@ class ReservoirsController < ApplicationController
   # POST /reservoirs
   def create
     @reservoir = Reservoir.new(reservoir_params)
+    authorize @reservoir
     if @reservoir.save
       render json: @reservoir, status: :created, location: @reservoir
     else
@@ -40,6 +43,7 @@ class ReservoirsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_reservoir
       @reservoir = Reservoir.find(params[:id])
+      authorize @reservoir
     end
 
     # Only allow a trusted parameter "white list" through.
