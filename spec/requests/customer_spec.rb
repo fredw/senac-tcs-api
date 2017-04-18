@@ -25,7 +25,7 @@ RSpec.describe 'Customer', type: :request do
     context 'when paginated' do
       before { get '/customers?page=1&per_page=2', headers: headers_admin }
 
-      it 'returns paginated users' do
+      it 'returns paginated customers' do
         expect(json.size).to eq(2)
       end
 

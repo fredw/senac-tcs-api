@@ -1,7 +1,8 @@
 class User < ApplicationRecord
+  belongs_to :customer
+  belongs_to :role
 
   include Devise::JWT::RevocationStrategies::JTIMatcher
-
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :timeoutable,
@@ -11,9 +12,6 @@ class User < ApplicationRecord
             length: { maximum: 255 },
             :uniqueness => { case_sensitive: false }
   validates :name, presence: true
-
-  belongs_to :customer
-  belongs_to :role
 
   before_create :set_default_role
 
