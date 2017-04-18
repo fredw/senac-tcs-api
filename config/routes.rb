@@ -21,6 +21,10 @@ Rails.application.routes.draw do
     delete '/users/sign_out', :to => 'users/sessions#destroy', :as => :destroy_user_session, format: :json
   end
 
-  resources :users
-  resources :customers
+  scope module: :v1, constraints: APIConstraints.new(1, true) do
+    resources :users
+    resources :customers
+    resources :reservoir_groups
+    resources :reservoirs
+  end
 end
