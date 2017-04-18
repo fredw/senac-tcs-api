@@ -19,6 +19,7 @@
 
 require 'simplecov'
 require 'codacy-coverage'
+require 'pundit/matchers'
 
 SimpleCov.start 'rails'
 Codacy::Reporter.start

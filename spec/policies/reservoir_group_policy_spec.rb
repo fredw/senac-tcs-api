@@ -1,25 +1,32 @@
 require 'rails_helper'
 
 RSpec.describe ReservoirGroupPolicy do
-  # subject { ReservoirGroupPolicy.new(user, reservoir_group) }
-  #
-  # let(:company) { create(:company) }
-  #
-  # describe "with a global admin user" do
-  #   let(:user)  { create(:company_user, :global_admin) }
-  #
-  #   it { should permit(:show) }
-  #   it { should permit(:edit) }
-  #   it { should permit(:update) }
-  #   it { should permit(:access_menu_item) }
-  # end
-  #
-  # describe "without a global admin user" do
-  #   let(:user) { create(:company_user) }
-  #
-  #   it { should_not permit(:show) }
-  #   it { should_not permit(:edit) }
-  #   it { should_not permit(:update) }
-  #   it { should_not permit(:access_menu_item) }
-  # end
+  subject { described_class.new(user, reservoir_group) }
+
+  let(:reservoir_group) { create(:reservoir_group) }
+
+  context 'with an admin user' do
+    let(:user) { create(:user_admin) }
+    it { is_expected.to permit_action(:index) }
+    it { is_expected.to permit_action(:show) }
+    it { is_expected.to permit_action(:create) }
+    it { is_expected.to permit_action(:update) }
+    it { is_expected.to permit_action(:destroy) }
+  end
+
+  context 'without an admin user' do
+    let(:user) { create(:user) }
+    it { is_expected.to permit_action(:index) }
+    it { is_expected.to forbid_actions([:create, :update, :destroy]) }
+
+    describe 'when user\'s customer is different' do
+      let(:reservoir_group) { create(:reservoir_group, customer: create(:customer)) }
+      let(:user) { create(:user, customer: create(:customer)) }
+      it { is_expected.to forbid_action(:show) }
+    end
+
+    describe 'when user\'s customer is equal' do
+      it { is_expected.to permit_action(:show) }
+    end
+  end
 end

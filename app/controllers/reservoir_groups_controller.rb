@@ -6,7 +6,7 @@ class ReservoirGroupsController < ApplicationController
   def index
     @reservoir_groups = policy_scope(ReservoirGroup.all)
     authorize ReservoirGroup
-    render json: @reservoir_groups
+    paginate json: @reservoir_groups
   end
 
   # GET /reservoir_groups/1

@@ -46,6 +46,7 @@ end
 group :test do
   gem 'factory_girl_rails'
   gem 'shoulda-matchers'
+  gem 'pundit-matchers'
   gem 'faker'
   gem 'database_cleaner'
   gem 'simplecov', :require => false
