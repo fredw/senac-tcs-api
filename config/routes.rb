@@ -1,12 +1,5 @@
 Rails.application.routes.draw do
 
-  scope module: :v1, constraints: APIConstraints.new(1, true) do
-    resources :users
-    resources :customers
-    resources :reservoir_groups
-    resources :reservoirs
-  end
-
   devise_for :users,
     defaults: { format: :json },
     failure_app: 'CustomFailure',
@@ -28,4 +21,10 @@ Rails.application.routes.draw do
     delete '/users/sign_out', :to => 'users/sessions#destroy', :as => :destroy_user_session, format: :json
   end
 
+  scope module: :v1, constraints: APIConstraints.new(1, true) do
+    resources :users
+    resources :customers
+    resources :reservoir_groups
+    resources :reservoirs
+  end
 end
