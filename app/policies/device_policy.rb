@@ -25,7 +25,7 @@ class DevicePolicy < ApplicationPolicy
       if user&.admin?
         scope.all
       else
-        scope.where(customer: user.customer)
+        scope.from_customer(user.customer)
       end
     end
   end

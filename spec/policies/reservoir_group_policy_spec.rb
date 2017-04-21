@@ -7,11 +7,7 @@ RSpec.describe ReservoirGroupPolicy do
 
   context 'with an admin user' do
     let(:user) { create(:user_admin) }
-    it { is_expected.to permit_action(:index) }
-    it { is_expected.to permit_action(:show) }
-    it { is_expected.to permit_action(:create) }
-    it { is_expected.to permit_action(:update) }
-    it { is_expected.to permit_action(:destroy) }
+    it { is_expected.to permit_actions([:index, :show, :create, :update, :destroy]) }
   end
 
   context 'without an admin user' do

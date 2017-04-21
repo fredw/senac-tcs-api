@@ -6,8 +6,6 @@ RSpec.describe 'Reservoir', type: :request do
   let(:reservoir_id) { reservoir.id }
   let(:customer) { create(:customer) }
   let(:headers_admin) { {'Authorization': sign_in(create(:user_admin)), 'Content-Type': 'application/json'} }
-  let(:headers_user) { {'Authorization': sign_in(create(:user)), 'Content-Type': 'application/json'} }
-  let(:headers_user_other) { {'Authorization': sign_in(create(:user, customer: customer)), 'Content-Type': 'application/json'} }
 
   describe 'GET /reservoirs' do
     let!(:reservoirs) { create_list(:reservoir, 10) }
@@ -39,18 +37,6 @@ RSpec.describe 'Reservoir', type: :request do
         expect(response.headers['Per-Page']).to eq('2')
       end
     end
-
-    context 'when user is not and admin' do
-      before { get '/reservoirs', headers: headers_user }
-
-      it 'returns reservoirs' do
-        expect(json['data'].size).to eq(10)
-      end
-
-      it 'returns status code 200 Success' do
-        expect(response).to have_http_status(:success)
-      end
-    end
   end
 
   describe 'GET /reservoirs/:id' do
@@ -65,27 +51,6 @@ RSpec.describe 'Reservoir', type: :request do
 
       it 'returns status code 200 Success' do
         expect(response).to have_http_status(:success)
-      end
-    end
-
-    context 'when the record exists and user is the owner' do
-      before { get "/reservoirs/#{reservoir_id}", headers: headers_user }
-
-      it 'returns the reservoir' do
-        expect(json).not_to be_empty
-        expect(json['data']['id']).to eq(reservoir_id)
-      end
-
-      it 'returns status code 200 Success' do
-        expect(response).to have_http_status(:success)
-      end
-    end
-
-    context 'when the record exists and user is not the owner' do
-      before { get "/reservoirs/#{reservoir_id}", headers: headers_user_other }
-
-      it 'returns status code 401 Unauthorized' do
-        expect(response).to have_http_status(:unauthorized)
       end
     end
 
@@ -143,14 +108,6 @@ RSpec.describe 'Reservoir', type: :request do
         expect(json['volume']).to eq(['can\'t be blank'])
       end
     end
-
-    context 'when user is not an admin' do
-      before { post '/reservoirs', params: valid_params, headers: headers_user }
-
-      it 'returns status code 401 Unauthorized' do
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
   end
 
   describe 'PUT /reservoirs/:id' do
@@ -182,14 +139,6 @@ RSpec.describe 'Reservoir', type: :request do
         expect(json['error']).to eq("Couldn't find Reservoir with 'id'=#{reservoir_id}")
       end
     end
-
-    context 'when user is not an admin' do
-      before { put "/reservoirs/#{reservoir_id}", params: valid_params, headers: headers_user }
-
-      it 'returns status code 401 Unauthorized' do
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
   end
 
   describe 'DELETE /reservoirs/:id' do
@@ -212,14 +161,6 @@ RSpec.describe 'Reservoir', type: :request do
 
       it 'returns a not found message' do
         expect(json['error']).to eq("Couldn't find Reservoir with 'id'=#{reservoir_id}")
-      end
-    end
-
-    context 'when user is not an admin' do
-      before { delete "/reservoirs/#{reservoir_id}", headers: headers_user }
-
-      it 'returns status code 401 Unauthorized' do
-        expect(response).to have_http_status(:unauthorized)
       end
     end
   end

@@ -5,7 +5,6 @@ RSpec.describe 'Customer', type: :request do
   let(:customer) { create(:customer) }
   let(:customer_id) { customer.id }
   let(:headers_admin) { {'Authorization': sign_in(create(:user_admin)), 'Content-Type': 'application/json'} }
-  let(:headers_user) { {'Authorization': sign_in(create(:user)), 'Content-Type': 'application/json'} }
 
   describe 'GET /customers' do
     let!(:customers) { create_list(:customer, 10) }
@@ -37,13 +36,6 @@ RSpec.describe 'Customer', type: :request do
         expect(response.headers['Per-Page']).to eq('2')
       end
     end
-
-    context 'when user is not and admin' do
-      before { get '/customers', headers: headers_user }
-      it 'returns status code 401 Unauthorized' do
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
   end
 
   describe 'GET /customers/:id' do
@@ -58,14 +50,6 @@ RSpec.describe 'Customer', type: :request do
 
       it 'returns status code 200 Success' do
         expect(response).to have_http_status(:success)
-      end
-    end
-
-    context 'when the record exists and user is not and admin' do
-      before { get "/customers/#{customer_id}", headers: headers_user }
-
-      it 'returns status code 401 Unauthorized' do
-        expect(response).to have_http_status(:unauthorized)
       end
     end
 
@@ -122,14 +106,6 @@ RSpec.describe 'Customer', type: :request do
         expect(json['active']).to eq(['can\'t be blank'])
       end
     end
-
-    context 'when user is not an admin' do
-      before { post '/customers', params: valid_params, headers: headers_user }
-
-      it 'returns status code 401 Unauthorized' do
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
   end
 
   describe 'PUT /customers/:id' do
@@ -160,14 +136,6 @@ RSpec.describe 'Customer', type: :request do
         expect(json['error']).to eq("Couldn't find Customer with 'id'=#{customer_id}")
       end
     end
-
-    context 'when user is not an admin' do
-      before { put "/customers/#{customer_id}", params: valid_params, headers: headers_user }
-
-      it 'returns status code 401 Unauthorized' do
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
   end
 
   describe 'DELETE /customers/:id' do
@@ -190,14 +158,6 @@ RSpec.describe 'Customer', type: :request do
 
       it 'returns a not found message' do
         expect(json['error']).to eq("Couldn't find Customer with 'id'=#{customer_id}")
-      end
-    end
-
-    context 'when user is not an admin' do
-      before { delete "/customers/#{customer_id}", headers: headers_user }
-
-      it 'returns status code 401 Unauthorized' do
-        expect(response).to have_http_status(:unauthorized)
       end
     end
   end
