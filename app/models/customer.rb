@@ -4,5 +4,5 @@ class Customer < ApplicationRecord
   has_many :reservoir_groups, dependent: :destroy
 
   validates :name, presence: true, length: { maximum: 100 }
-  validates :active, presence: true
+  validates :active, inclusion: { in: [true, false] }
 end

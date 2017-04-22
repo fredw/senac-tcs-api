@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170421042548) do
+ActiveRecord::Schema.define(version: 20170421211407) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,13 @@ ActiveRecord::Schema.define(version: 20170421042548) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "reservoir_id"
+  end
+
+  create_table "flow_sensors", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "pin"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "device_id"
   end
 
   create_table "reservoir_groups", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -54,6 +61,13 @@ ActiveRecord::Schema.define(version: 20170421042548) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "rulers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.decimal "height"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "device_id"
   end
 
   create_table "users", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
@@ -84,9 +98,11 @@ ActiveRecord::Schema.define(version: 20170421042548) do
   end
 
   add_foreign_key "devices", "reservoirs"
+  add_foreign_key "flow_sensors", "devices"
   add_foreign_key "reservoir_groups", "customers"
   add_foreign_key "reservoirs", "customers"
   add_foreign_key "reservoirs", "reservoir_groups"
+  add_foreign_key "rulers", "devices"
   add_foreign_key "users", "customers"
   add_foreign_key "users", "roles"
 end
