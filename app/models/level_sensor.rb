@@ -1,7 +1,7 @@
 class LevelSensor < ApplicationRecord
   belongs_to :ruler
 
-  validates :pin, presence: true, length: { is: 2 }#, uniqueness: { scope: :ruler.device_id }
+  validates :pin, presence: true, length: { is: 2 }
   validates :volume, presence: true
   validates :sequence, presence: true, uniqueness: { scope: :ruler_id }
   validate :check_if_pin_already_exists
