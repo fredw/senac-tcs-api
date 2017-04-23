@@ -6,8 +6,6 @@ RSpec.describe 'Reservoir', type: :request do
   let(:reservoir_group_id) { reservoir_group.id }
   let(:customer) { create(:customer) }
   let(:headers_admin) { {'Authorization': sign_in(create(:user_admin)), 'Content-Type': 'application/json'} }
-  let(:headers_user) { {'Authorization': sign_in(create(:user)), 'Content-Type': 'application/json'} }
-  let(:headers_user_other) { {'Authorization': sign_in(create(:user, customer: customer)), 'Content-Type': 'application/json'} }
 
   describe 'GET /reservoir_groups' do
     let!(:reservoir_groups) { create_list(:reservoir_group, 10) }
@@ -39,18 +37,6 @@ RSpec.describe 'Reservoir', type: :request do
         expect(response.headers['Per-Page']).to eq('2')
       end
     end
-
-    context 'when user is not and admin' do
-      before { get '/reservoir_groups', headers: headers_user }
-
-      it 'returns reservoir groups' do
-        expect(json['data'].size).to eq(10)
-      end
-
-      it 'returns status code 200 Success' do
-        expect(response).to have_http_status(:success)
-      end
-    end
   end
 
   describe 'GET /reservoir_groups/:id' do
@@ -65,27 +51,6 @@ RSpec.describe 'Reservoir', type: :request do
 
       it 'returns status code 200 Success' do
         expect(response).to have_http_status(:success)
-      end
-    end
-
-    context 'when the record exists and user is the owner' do
-      before { get "/reservoir_groups/#{reservoir_group_id}", headers: headers_user }
-
-      it 'returns the reservoir_group' do
-        expect(json).not_to be_empty
-        expect(json['data']['id']).to eq(reservoir_group_id)
-      end
-
-      it 'returns status code 200 Success' do
-        expect(response).to have_http_status(:success)
-      end
-    end
-
-    context 'when the record exists and user is not the owner' do
-      before { get "/reservoir_groups/#{reservoir_group_id}", headers: headers_user_other }
-
-      it 'returns status code 401 Unauthorized' do
-        expect(response).to have_http_status(:unauthorized)
       end
     end
 
@@ -141,14 +106,6 @@ RSpec.describe 'Reservoir', type: :request do
         expect(json['customer']).to eq(['must exist'])
       end
     end
-
-    context 'when user is not an admin' do
-      before { post '/reservoir_groups', params: valid_params, headers: headers_user }
-
-      it 'returns status code 401 Unauthorized' do
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
   end
 
   describe 'PUT /reservoir_groups/:id' do
@@ -178,14 +135,6 @@ RSpec.describe 'Reservoir', type: :request do
         expect(json['error']).to eq("Couldn't find ReservoirGroup with 'id'=#{reservoir_group_id}")
       end
     end
-
-    context 'when user is not an admin' do
-      before { put "/reservoir_groups/#{reservoir_group_id}", params: valid_params, headers: headers_user }
-
-      it 'returns status code 401 Unauthorized' do
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
   end
 
   describe 'DELETE /reservoir_groups/:id' do
@@ -208,14 +157,6 @@ RSpec.describe 'Reservoir', type: :request do
 
       it 'returns a not found message' do
         expect(json['error']).to eq("Couldn't find ReservoirGroup with 'id'=#{reservoir_group_id}")
-      end
-    end
-
-    context 'when user is not an admin' do
-      before { delete "/reservoir_groups/#{reservoir_group_id}", headers: headers_user }
-
-      it 'returns status code 401 Unauthorized' do
-        expect(response).to have_http_status(:unauthorized)
       end
     end
   end

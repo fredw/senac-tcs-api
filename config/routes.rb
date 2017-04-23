@@ -25,6 +25,13 @@ Rails.application.routes.draw do
     resources :users
     resources :customers
     resources :reservoir_groups
-    resources :reservoirs
+    resources :reservoirs do
+      resources :devices, shallow: true do
+        resources :rulers, shallow: true do
+          resources :level_sensors
+        end
+        resources :flow_sensors
+      end
+    end
   end
 end
