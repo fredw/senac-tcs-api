@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe ReservoirGroupPolicy do
-  subject { described_class.new(user, reservoir_group) }
+RSpec.describe LevelSensorPolicy do
+  subject { described_class.new(user, level_sensor) }
 
-  let(:reservoir_group) { create(:reservoir_group) }
+  let(:level_sensor) { create(:level_sensor) }
 
   context 'with an admin user' do
     let(:user) { create(:user_admin) }
@@ -15,13 +15,13 @@ RSpec.describe ReservoirGroupPolicy do
     it { is_expected.to permit_action(:index) }
     it { is_expected.to forbid_actions([:create, :update, :destroy]) }
 
-    describe 'when user\'s customer is different' do
-      let(:reservoir_group) { create(:reservoir_group, customer: create(:customer)) }
+    describe 'when customer is different' do
+      let(:level_sensor) { create(:level_sensor, ruler: create(:ruler, device: create(:device, reservoir: create(:reservoir, customer: create(:customer))))) }
       let(:user) { create(:user, customer: create(:customer)) }
       it { is_expected.to forbid_action(:show) }
     end
 
-    describe 'when user\'s customer is equal' do
+    describe 'when customer is equal' do
       it { is_expected.to permit_action(:show) }
     end
   end

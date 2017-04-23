@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170414002349) do
+ActiveRecord::Schema.define(version: 20170422232243) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,32 @@ ActiveRecord::Schema.define(version: 20170414002349) do
     t.boolean "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "devices", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "reservoir_id"
+  end
+
+  create_table "flow_sensors", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "pin"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "device_id"
+    t.index ["pin", "device_id"], name: "index_flow_sensors_on_pin_and_device_id", unique: true
+  end
+
+  create_table "level_sensors", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "pin"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "ruler_id"
+    t.decimal "volume"
+    t.integer "sequence"
+    t.index ["sequence", "ruler_id"], name: "index_level_sensors_on_sequence_and_ruler_id", unique: true
   end
 
   create_table "reservoir_groups", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -46,6 +72,13 @@ ActiveRecord::Schema.define(version: 20170414002349) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "rulers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.decimal "height"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "device_id"
   end
 
   create_table "users", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
@@ -75,9 +108,13 @@ ActiveRecord::Schema.define(version: 20170414002349) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "devices", "reservoirs"
+  add_foreign_key "flow_sensors", "devices"
+  add_foreign_key "level_sensors", "rulers"
   add_foreign_key "reservoir_groups", "customers"
   add_foreign_key "reservoirs", "customers"
   add_foreign_key "reservoirs", "reservoir_groups"
+  add_foreign_key "rulers", "devices"
   add_foreign_key "users", "customers"
   add_foreign_key "users", "roles"
 end
