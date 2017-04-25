@@ -1,5 +1,6 @@
 class FlowSensor < ApplicationRecord
   belongs_to :device
+  has_many :flow_sensors_data, dependent: :destroy
 
   validates :pin, presence: true, length: { is: 2 }, uniqueness: { scope: :device_id }
 
