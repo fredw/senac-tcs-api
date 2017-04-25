@@ -21,7 +21,7 @@ class User < ApplicationRecord
 
   private
 
-    def set_default_role
-      self.role ||= Role.find_by_symbol(Role.symbols.fetch(:user))
-    end
+  def set_default_role
+    self.role ||= Role.find_by_symbol(Role.symbols.fetch(:user))
+  end
 end
