@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe LevelSensor, type: :model do
   it { should belong_to(:ruler) }
+  it { should have_many(:level_sensors_data).dependent(:destroy) }
   it { should validate_presence_of(:pin) }
   it { should validate_presence_of(:volume) }
   it { should validate_presence_of(:sequence) }

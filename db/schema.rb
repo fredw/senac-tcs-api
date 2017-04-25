@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170424193459) do
+ActiveRecord::Schema.define(version: 20170425173500) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,13 @@ ActiveRecord::Schema.define(version: 20170424193459) do
     t.decimal "volume"
     t.integer "sequence"
     t.index ["sequence", "ruler_id"], name: "index_level_sensors_on_sequence_and_ruler_id", unique: true
+  end
+
+  create_table "level_sensors_data", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.boolean "switched_on"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "level_sensor_id"
   end
 
   create_table "reservoir_groups", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -119,6 +126,7 @@ ActiveRecord::Schema.define(version: 20170424193459) do
   add_foreign_key "flow_sensors", "devices"
   add_foreign_key "flow_sensors_data", "flow_sensors"
   add_foreign_key "level_sensors", "rulers"
+  add_foreign_key "level_sensors_data", "level_sensors"
   add_foreign_key "reservoir_groups", "customers"
   add_foreign_key "reservoirs", "customers"
   add_foreign_key "reservoirs", "reservoir_groups"

@@ -17,4 +17,5 @@
 
 ActiveSupport::Inflector.inflections do |inflect|
   inflect.irregular 'flow_sensor_data', 'flow_sensors_data'
+  inflect.irregular 'level_sensor_data', 'level_sensors_data'
 end

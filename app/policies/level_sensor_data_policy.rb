@@ -1,15 +1,15 @@
-class FlowSensorDataPolicy < ApplicationPolicy
+class LevelSensorDataPolicy < ApplicationPolicy
 
   def index?
     true
   end
 
   def show?
-    scope.where(:id => record.id).exists? && (record.flow_sensor.device.reservoir.customer == user.customer || user.admin?)
+    scope.where(:id => record.id).exists? && (record.level_sensor.ruler.device.reservoir.customer == user.customer || user.admin?)
   end
 
   def create?
-    record.flow_sensor&.device&.reservoir&.customer == user.customer || user.admin?
+    record.level_sensor&.ruler&.device&.reservoir&.customer == user.customer || user.admin?
   end
 
   def update?
