@@ -41,15 +41,16 @@ module V1
     end
 
     private
-      # Use callbacks to share common setup or constraints between actions.
-      def set_level_sensor
-        @level_sensor = LevelSensor.find(params[:id])
-        authorize @level_sensor
-      end
 
-      # Only allow a trusted parameter "white list" through.
-      def level_sensor_params
-        params.require(:level_sensor).permit(:pin, :volume, :sequence, :ruler_id)
-      end
+    # Use callbacks to share common setup or constraints between actions.
+    def set_level_sensor
+      @level_sensor = policy_scope(LevelSensor.find(params[:id]))
+      authorize @level_sensor
+    end
+
+    # Only allow a trusted parameter "white list" through.
+    def level_sensor_params
+      params.require(:level_sensor).permit(:pin, :volume, :sequence, :ruler_id)
+    end
   end
 end

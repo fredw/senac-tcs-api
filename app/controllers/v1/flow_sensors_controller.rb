@@ -41,15 +41,16 @@ module V1
     end
 
     private
-      # Use callbacks to share common setup or constraints between actions.
-      def set_flow_sensor
-        @flow_sensor = FlowSensor.find(params[:id])
-        authorize @flow_sensor
-      end
 
-      # Only allow a trusted parameter "white list" through.
-      def flow_sensor_params
-        params.require(:flow_sensor).permit(:pin, :device_id)
-      end
+    # Use callbacks to share common setup or constraints between actions.
+    def set_flow_sensor
+      @flow_sensor = policy_scope(FlowSensor.find(params[:id]))
+      authorize @flow_sensor
+    end
+
+    # Only allow a trusted parameter "white list" through.
+    def flow_sensor_params
+      params.require(:flow_sensor).permit(:pin, :device_id)
+    end
   end
 end

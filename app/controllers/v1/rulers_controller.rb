@@ -41,15 +41,16 @@ module V1
     end
 
     private
-      # Use callbacks to share common setup or constraints between actions.
-      def set_ruler
-        @ruler = Ruler.find(params[:id])
-        authorize @ruler
-      end
 
-      # Only allow a trusted parameter "white list" through.
-      def ruler_params
-        params.require(:ruler).permit(:height, :device_id)
-      end
+    # Use callbacks to share common setup or constraints between actions.
+    def set_ruler
+      @ruler = policy_scope(Ruler.find(params[:id]))
+      authorize @ruler
+    end
+
+    # Only allow a trusted parameter "white list" through.
+    def ruler_params
+      params.require(:ruler).permit(:height, :device_id)
+    end
   end
 end
