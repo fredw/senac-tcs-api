@@ -1,7 +1,7 @@
 module V1
   class LevelSensorsDataController < ApplicationController
     before_action :authenticate_user!
-    before_action :set_level_sensor_datum, only: [:show, :update, :destroy]
+    before_action :set_level_sensor_data, only: [:show, :update, :destroy]
 
     # GET /level_sensors_data
     def index
@@ -43,8 +43,8 @@ module V1
     private
 
     # Use callbacks to share common setup or constraints between actions.
-    def set_level_sensor_datum
-      @level_sensor_data = policy_scope(LevelSensorData.find(params[:id]))
+    def set_level_sensor_data
+      @level_sensor_data = LevelSensorData.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.

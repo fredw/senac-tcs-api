@@ -44,7 +44,7 @@ module V1
 
     # Use callbacks to share common setup or constraints between actions.
     def set_device
-      @device = policy_scope(Device.find(params[:id]))
+      @device = Device.find(params[:id])
       authorize @device
     end
 
