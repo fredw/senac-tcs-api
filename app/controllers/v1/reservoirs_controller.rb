@@ -44,7 +44,7 @@ module V1
 
     # Use callbacks to share common setup or constraints between actions.
     def set_reservoir
-      @reservoir = policy_scope(Reservoir.find(params[:id]))
+      @reservoir = Reservoir.find(params[:id])
       authorize @reservoir
     end
 

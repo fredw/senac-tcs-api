@@ -16,7 +16,7 @@ module V1
     private
 
     def set_device
-      @device = policy_scope(Device.find(params[:device_id]))
+      @device = Device.find(params[:device_id])
       authorize @device
     end
   end
