@@ -7,7 +7,7 @@ RSpec.describe DevicePolicy do
 
   context 'with an admin user' do
     let(:user) { create(:user_admin) }
-    it { is_expected.to permit_actions([:index, :show, :create, :update, :destroy]) }
+    it { is_expected.to permit_actions([:index, :show, :create, :update, :destroy, :generate]) }
   end
 
   context 'without an admin user' do
@@ -18,11 +18,11 @@ RSpec.describe DevicePolicy do
     describe 'when customer is different' do
       let(:device) { create(:device, reservoir: create(:reservoir, customer: create(:customer))) }
       let(:user) { create(:user, customer: create(:customer)) }
-      it { is_expected.to forbid_action(:show) }
+      it { is_expected.to forbid_actions([:show, :generate]) }
     end
 
     describe 'when customer is equal' do
-      it { is_expected.to permit_action(:show) }
+      it { is_expected.to permit_actions([:show, :generate]) }
     end
   end
 end

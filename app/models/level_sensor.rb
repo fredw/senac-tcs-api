@@ -1,5 +1,6 @@
 class LevelSensor < ApplicationRecord
   belongs_to :ruler
+  has_many :level_sensors_data, dependent: :destroy
 
   validates :pin, presence: true, length: { is: 2 }
   validates :volume, presence: true
