@@ -30,15 +30,16 @@ module V1
     end
 
     private
-      # Use callbacks to share common setup or constraints between actions.
-      def set_user
-        @user = User.find(params[:id])
-        authorize @user
-      end
 
-      # Only allow a trusted parameter "white list" through.
-      def user_params
-        params.fetch(:user, {}).permit(:name, :role_id)
-      end
+    # Use callbacks to share common setup or constraints between actions.
+    def set_user
+      @user = policy_scope(User.find(params[:id]))
+      authorize @user
+    end
+
+    # Only allow a trusted parameter "white list" through.
+    def user_params
+      params.fetch(:user, {}).permit(:name, :role_id)
+    end
   end
 end

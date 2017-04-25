@@ -30,7 +30,7 @@ class AppPolicy < Struct.new(:user, :app)
 
   private
 
-    def customer_active?
-      user.customer.active?
-    end
+  def customer_active?
+    user.customer.active?
+  end
 end

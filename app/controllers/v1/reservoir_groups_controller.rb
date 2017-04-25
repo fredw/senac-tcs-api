@@ -41,15 +41,16 @@ module V1
     end
 
     private
-      # Use callbacks to share common setup or constraints between actions.
-      def set_reservoir_group
-        @reservoir_group = ReservoirGroup.find(params[:id])
-        authorize @reservoir_group
-      end
 
-      # Only allow a trusted parameter "white list" through.
-      def reservoir_group_params
-        params.require(:reservoir_group).permit(:name, :customer_id)
-      end
+    # Use callbacks to share common setup or constraints between actions.
+    def set_reservoir_group
+      @reservoir_group = policy_scope(ReservoirGroup.find(params[:id]))
+      authorize @reservoir_group
+    end
+
+    # Only allow a trusted parameter "white list" through.
+    def reservoir_group_params
+      params.require(:reservoir_group).permit(:name, :customer_id)
+    end
   end
 end
