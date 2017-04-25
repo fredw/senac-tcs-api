@@ -44,7 +44,7 @@ module V1
 
     # Use callbacks to share common setup or constraints between actions.
     def set_customer
-      @customer = policy_scope(Customer.find(params[:id]))
+      @customer = Customer.find(params[:id])
       authorize @customer
     end
 

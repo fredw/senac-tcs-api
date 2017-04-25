@@ -44,7 +44,7 @@ module V1
 
     # Use callbacks to share common setup or constraints between actions.
     def set_flow_sensor
-      @flow_sensor = policy_scope(FlowSensor.find(params[:id]))
+      @flow_sensor = FlowSensor.find(params[:id])
       authorize @flow_sensor
     end
 

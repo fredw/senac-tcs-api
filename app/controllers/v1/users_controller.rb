@@ -33,7 +33,7 @@ module V1
 
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = policy_scope(User.find(params[:id]))
+      @user = User.find(params[:id])
       authorize @user
     end
 

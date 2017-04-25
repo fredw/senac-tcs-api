@@ -44,7 +44,7 @@ module V1
 
     # Use callbacks to share common setup or constraints between actions.
     def set_ruler
-      @ruler = policy_scope(Ruler.find(params[:id]))
+      @ruler = Ruler.find(params[:id])
       authorize @ruler
     end
 

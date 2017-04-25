@@ -44,7 +44,7 @@ module V1
 
     # Use callbacks to share common setup or constraints between actions.
     def set_level_sensor
-      @level_sensor = policy_scope(LevelSensor.find(params[:id]))
+      @level_sensor = LevelSensor.find(params[:id])
       authorize @level_sensor
     end
 

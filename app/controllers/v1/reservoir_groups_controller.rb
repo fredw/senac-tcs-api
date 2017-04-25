@@ -44,7 +44,7 @@ module V1
 
     # Use callbacks to share common setup or constraints between actions.
     def set_reservoir_group
-      @reservoir_group = policy_scope(ReservoirGroup.find(params[:id]))
+      @reservoir_group = ReservoirGroup.find(params[:id])
       authorize @reservoir_group
     end
 
