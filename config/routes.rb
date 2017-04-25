@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     resources :reservoir_groups
     resources :reservoirs, shallow: true do
       resources :devices do
+        get 'generate_settings' => 'devices_settings#generate'
         resources :rulers do
           resources :level_sensors
         end

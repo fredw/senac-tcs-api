@@ -7,4 +7,5 @@ class FlowSensor < ApplicationRecord
   scope :from_customer, -> (customer) do
     joins(device: :reservoir).where(reservoirs: { customer_id: customer.id })
   end
+  scope :from_device, -> (device) { where(device_id: device.id) }
 end

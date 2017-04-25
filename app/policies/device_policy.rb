@@ -20,6 +20,10 @@ class DevicePolicy < ApplicationPolicy
     user.admin?
   end
 
+  def generate?
+    scope.where(:id => record.id).exists? && (record.reservoir.customer == user.customer || user.admin?)
+  end
+
   class Scope < Scope
     def resolve
       if user&.admin?

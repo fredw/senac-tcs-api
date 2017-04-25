@@ -3,7 +3,7 @@ class ApplicationController < ActionController::API
   include Pundit
   after_action :verify_authorized
   after_action :verify_policy_scoped, only: :index
-  before_action :check_customer_active
+  before_action :check_customer_active, only: [:index, :show, :create, :update, :destroy]
 
   respond_to :json
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
