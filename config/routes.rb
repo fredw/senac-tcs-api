@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   end
 
   scope module: :v1, constraints: APIConstraints.new(1, true) do
+    resources :roles
     resources :users
     resources :customers
     resources :reservoir_groups
