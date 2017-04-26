@@ -2,7 +2,7 @@ class LevelSensor < ApplicationRecord
   belongs_to :ruler
   has_many :level_sensors_data, dependent: :destroy
 
-  validates :pin, presence: true, length: { is: 2 }
+  validates :pin, presence: true, length: { maximum: 2 }
   validates :volume, presence: true
   validates :sequence, presence: true, uniqueness: { scope: :ruler_id }
   validate :check_if_pin_already_exists

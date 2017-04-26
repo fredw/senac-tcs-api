@@ -6,7 +6,7 @@ RSpec.describe LevelSensor, type: :model do
   it { should validate_presence_of(:pin) }
   it { should validate_presence_of(:volume) }
   it { should validate_presence_of(:sequence) }
-  it { should validate_length_of(:pin).is_equal_to(2) }
+  it { should validate_length_of(:pin).is_at_most(2) }
   it { should validate_uniqueness_of(:sequence).scoped_to(:ruler_id) }
 
   context 'when pin already exists' do
