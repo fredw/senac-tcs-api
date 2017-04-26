@@ -93,7 +93,7 @@ RSpec.describe 'LevelSensor', type: :request do
       end
 
       it 'returns a validation failure message' do
-        expect(json['pin']).to eq(['can\'t be blank', 'is the wrong length (should be 2 characters)'])
+        expect(json['pin']).to eq(['can\'t be blank'])
       end
     end
 
