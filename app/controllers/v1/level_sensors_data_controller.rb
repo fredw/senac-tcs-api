@@ -3,9 +3,12 @@ module V1
     before_action :authenticate_user!
     before_action :set_level_sensor_data, only: [:show, :update, :destroy]
 
+    has_scope :by_date, :using => [:from, :to], only: :index
+    has_scope :switched_on, type: :boolean, allow_blank: true, only: :index
+
     # GET /level_sensors_data
     def index
-      @level_sensors_data = policy_scope(LevelSensorData.where(level_sensor_id: params[:level_sensor_id]))
+      @level_sensors_data = policy_scope(apply_scopes(LevelSensorData.where(level_sensor_id: params[:level_sensor_id]).order(created_at: :desc)))
       authorize LevelSensorData
       paginate json: @level_sensors_data
     end

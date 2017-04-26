@@ -3,9 +3,11 @@ module V1
     before_action :authenticate_user!
     before_action :set_flow_sensor_data, only: [:show, :update, :destroy]
 
+    has_scope :by_date, :using => [:from, :to], only: :index
+
     # GET /flow_sensors_data
     def index
-      @flow_sensors_data = policy_scope(FlowSensorData.where(flow_sensor_id: params[:flow_sensor_id]))
+      @flow_sensors_data = policy_scope(apply_scopes(FlowSensorData.where(flow_sensor_id: params[:flow_sensor_id]).order(created_at: :desc)))
       authorize FlowSensorData
       paginate json: @flow_sensors_data
     end
