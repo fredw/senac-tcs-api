@@ -7,7 +7,7 @@ module V1
     def index
       @devices = policy_scope(Device.where(reservoir_id: params[:reservoir_id]))
       authorize Device
-      paginate json: @devices
+      paginate json: @devices, include: %w(reservoir, rulers, rulers.level_sensors)
     end
 
     # GET /devices/1
