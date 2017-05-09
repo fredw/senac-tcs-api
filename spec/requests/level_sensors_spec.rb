@@ -26,7 +26,7 @@ RSpec.describe 'LevelSensor', type: :request do
       before { get "/rulers/#{ruler.id}/level_sensors?page=1&per_page=2", headers: headers_admin }
 
       it 'returns paginated level_sensors' do
-        expect(json.size).to eq(2)
+        expect(json['data'].size).to eq(2)
       end
 
       it 'returns total records header' do

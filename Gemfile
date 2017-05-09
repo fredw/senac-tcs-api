@@ -17,7 +17,7 @@ gem 'bcrypt', '~> 3.1.7'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
 # Serialization
-gem 'active_model_serializers', '~> 0.10.5'
+gem 'active_model_serializers', '~> 0.10.6'
 # Authentication
 gem 'devise'
 gem 'jwt'
