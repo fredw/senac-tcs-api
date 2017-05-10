@@ -4,12 +4,20 @@ module V1
     before_action :set_flow_sensor_data, only: [:show, :update, :destroy]
 
     has_scope :by_date, :using => [:from, :to], only: :index
+    has_scope :last_record, only: :last
 
     # GET /flow_sensors_data
     def index
-      @flow_sensors_data = policy_scope(apply_scopes(FlowSensorData.where(flow_sensor_id: params[:flow_sensor_id]).order(created_at: :desc)))
+      @flow_sensors_data = FlowSensorData.where(flow_sensor_id: params[:flow_sensor_id])
       authorize FlowSensorData
-      paginate json: @flow_sensors_data
+      paginate json: policy_scope(apply_scopes(@flow_sensors_data))
+    end
+
+    # GET /flow_sensors_data_last
+    def last
+      @flow_sensors_data = FlowSensorData.where(flow_sensor_id: params[:flow_sensor_id]).order(created_at: :desc).limit(1)
+      authorize FlowSensorData
+      render json: policy_scope(apply_scopes(@flow_sensors_data))
     end
 
     # GET /flow_sensors_data/1

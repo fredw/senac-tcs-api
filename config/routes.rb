@@ -36,6 +36,7 @@ Rails.application.routes.draw do
           end
         end
         resources :flow_sensors do
+          get 'flow_sensors_data_last' => 'flow_sensors_data#last'
           resources :flow_sensors_data
         end
       end

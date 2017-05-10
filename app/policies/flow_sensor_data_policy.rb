@@ -4,6 +4,10 @@ class FlowSensorDataPolicy < ApplicationPolicy
     true
   end
 
+  def last?
+    true
+  end
+
   def show?
     scope.where(:id => record.id).exists? && (record.flow_sensor.device.reservoir.customer == user.customer || user.admin?)
   end
