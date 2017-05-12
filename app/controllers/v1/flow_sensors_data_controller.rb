@@ -1,10 +1,9 @@
 module V1
   class FlowSensorsDataController < ApplicationController
     before_action :authenticate_user!
-    before_action :set_flow_sensor_data, only: [:show, :update, :destroy]
+    before_action :set_flow_sensor_data, only: [:show]
 
     has_scope :by_date, :using => [:from, :to], only: :index
-    has_scope :last_record, only: :last
 
     # GET /flow_sensors_data
     def index
@@ -15,9 +14,9 @@ module V1
 
     # GET /flow_sensors_data_last
     def last
-      @flow_sensors_data = FlowSensorData.where(flow_sensor_id: params[:flow_sensor_id]).order(created_at: :desc).limit(1)
+      @flow_sensor_data = FlowSensorData.where(flow_sensor_id: params[:flow_sensor_id]).order(created_at: :desc).limit(1)
       authorize FlowSensorData
-      render json: policy_scope(apply_scopes(@flow_sensors_data))
+      render json: policy_scope(apply_scopes(@flow_sensor_data))
     end
 
     # GET /flow_sensors_data/1
@@ -34,20 +33,6 @@ module V1
       else
         render json: @flow_sensor_data.errors, status: :unprocessable_entity
       end
-    end
-
-    # PATCH/PUT /flow_sensors_data/1
-    def update
-      if @flow_sensor_data.update(flow_sensor_data_params)
-        render json: @flow_sensor_data
-      else
-        render json: @flow_sensor_data.errors, status: :unprocessable_entity
-      end
-    end
-
-    # DELETE /flow_sensors_data/1
-    def destroy
-      @flow_sensor_data.destroy
     end
 
     private

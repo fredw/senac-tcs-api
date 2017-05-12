@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  resources :level_sensor_data
   devise_for :users,
     defaults: { format: :json },
     failure_app: 'CustomFailure',
@@ -31,13 +30,13 @@ Rails.application.routes.draw do
       resources :devices do
         get 'generate_settings' => 'devices_settings#generate'
         resources :rulers do
-          resources :level_sensors do
-            resources :level_sensors_data
-          end
+          resources :level_sensors
+          resources :rulers_data
+          get 'rulers_data_last' => 'rulers_data#last'
         end
         resources :flow_sensors do
-          get 'flow_sensors_data_last' => 'flow_sensors_data#last'
           resources :flow_sensors_data
+          get 'flow_sensors_data_last' => 'flow_sensors_data#last'
         end
       end
     end

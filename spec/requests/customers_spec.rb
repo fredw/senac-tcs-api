@@ -45,7 +45,9 @@ RSpec.describe 'Customer', type: :request do
 
       it 'returns the customer' do
         expect(json).not_to be_empty
-        expect(json['data']['id']).to eq(customer_id)
+        expect(json['data']['id']).to eq(customer.id)
+        expect(json['data']['attributes']['name']).to eq(customer.name)
+        expect(json['data']['attributes']['active']).to eq(customer.active)
       end
 
       it 'returns status code 200 Success' do
