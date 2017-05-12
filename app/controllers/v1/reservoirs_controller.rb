@@ -5,9 +5,9 @@ module V1
 
     # GET /reservoirs
     def index
-      @reservoirs = policy_scope(Reservoir.all)
+      @reservoirs = policy_scope(Reservoir.order(:reservoir_group_id))
       authorize Reservoir
-      paginate json: @reservoirs
+      paginate json: @reservoirs, include: :reservoir_group
     end
 
     # GET /reservoirs/1

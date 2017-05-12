@@ -7,21 +7,27 @@ module V1
 
     # GET /flow_sensors_data
     def index
-      @flow_sensors_data = FlowSensorData.where(flow_sensor_id: params[:flow_sensor_id])
+      @flow_sensors_data = FlowSensorData.where(flow_sensor_id: params[:flow_sensor_id]).order(created_at: :asc)
       authorize FlowSensorData
-      paginate json: policy_scope(apply_scopes(@flow_sensors_data))
+      paginate json: policy_scope(apply_scopes(@flow_sensors_data)),
+               root: :data,
+               adapter: :json
     end
 
     # GET /flow_sensors_data_last
     def last
       @flow_sensor_data = FlowSensorData.where(flow_sensor_id: params[:flow_sensor_id]).order(created_at: :desc).limit(1)
       authorize FlowSensorData
-      render json: policy_scope(apply_scopes(@flow_sensor_data))
+      render json: policy_scope(apply_scopes(@flow_sensor_data)).first || {},
+             root: :data,
+             adapter: :json
     end
 
     # GET /flow_sensors_data/1
     def show
-      render json: @flow_sensor_data
+      render json: @flow_sensor_data,
+             root: :data,
+             adapter: :json
     end
 
     # POST /flow_sensors_data

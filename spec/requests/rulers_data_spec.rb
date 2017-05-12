@@ -50,8 +50,8 @@ RSpec.describe 'RulerData', type: :request do
 
       it 'returns the ruler data' do
         expect(json).not_to be_empty
-        expect(json['data'][0]['id']).to eq(rulers_data.last.id)
-        expect(json['data'][0]['attributes']['ruler']['id']).to eq(rulers_data.last.ruler.id)
+        expect(json['data']['id']).to eq(rulers_data.last.id)
+        expect(json['data']['ruler']['id']).to eq(rulers_data.last.ruler.id)
       end
 
       it 'returns status code 200 Success' do
@@ -67,7 +67,8 @@ RSpec.describe 'RulerData', type: :request do
 
       it 'returns the ruler_data' do
         expect(json).not_to be_empty
-        expect(json['data']['id']).to eq(ruler_data_id)
+        expect(json['data']['id']).to eq(ruler_data.id)
+        expect(json['data']['ruler']['id']).to eq(ruler_data.ruler.id)
       end
 
       it 'returns status code 200 Success' do
@@ -102,7 +103,7 @@ RSpec.describe 'RulerData', type: :request do
       before { post "/rulers/#{ruler.id}/rulers_data", params: valid_params, headers: headers_admin }
 
       it 'creates a ruler_data' do
-        expect(json['data']['attributes']['ruler']['id']).to eq(ruler.id)
+        expect(json['data']['relationships']['ruler']['data']['id']).to eq(ruler.id)
       end
 
       it 'returns status code 201 Created' do

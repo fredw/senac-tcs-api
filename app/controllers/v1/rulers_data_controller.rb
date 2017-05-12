@@ -8,21 +8,30 @@ module V1
 
     # GET /ruler_data
     def index
-      @rulers_data = policy_scope(apply_scopes(RulerData.where(ruler_id: params[:ruler_id])))
+      @rulers_data = policy_scope(apply_scopes(RulerData.where(ruler_id: params[:ruler_id]))).order(created_at: :asc)
       authorize RulerData
-      paginate json: @rulers_data, include: %w(level_sensor_data)
+      paginate json: @rulers_data,
+               include: %w(ruler, level_sensor_data, level_sensor_data.level_sensor),
+               root: :data,
+               adapter: :json
     end
 
     # GET /ruler_data_last
     def last
       @ruler_data = RulerData.where(ruler_id: params[:ruler_id]).order(created_at: :desc).limit(1)
       authorize RulerData
-      render json: policy_scope(apply_scopes(@ruler_data))
+      render json: policy_scope(apply_scopes(@ruler_data)).first || {},
+             include: %w(ruler, level_sensor_data, level_sensor_data.level_sensor),
+             root: :data,
+             adapter: :json
     end
 
     # GET /ruler_data/1
     def show
-      render json: @ruler_data, include: %w(level_sensor_data)
+      render json: @ruler_data,
+             include: %w(ruler, level_sensor_data, level_sensor_data.level_sensor),
+             root: :data,
+             adapter: :json
     end
 
     # POST /ruler_data

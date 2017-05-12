@@ -47,8 +47,8 @@ RSpec.describe 'FlowSensorData', type: :request do
 
       it 'returns the flow_sensor_data' do
         expect(json).not_to be_empty
-        expect(json['data'][0]['id']).to eq(flow_sensors_data.last.id)
-        expect(json['data'][0]['attributes']['consumption-per-minute']).to eq(flow_sensors_data.last.consumption_per_minute.to_s)
+        expect(json['data']['id']).to eq(flow_sensors_data.last.id)
+        expect(json['data']['consumption_per_minute']).to eq(flow_sensors_data.last.consumption_per_minute.to_s)
       end
 
       it 'returns status code 200 Success' do
@@ -65,7 +65,7 @@ RSpec.describe 'FlowSensorData', type: :request do
       it 'returns the flow_sensor_data' do
         expect(json).not_to be_empty
         expect(json['data']['id']).to eq(flow_sensor_data.id)
-        expect(json['data']['attributes']['consumption-per-minute']).to eq(flow_sensor_data.consumption_per_minute.to_s)
+        expect(json['data']['consumption_per_minute']).to eq(flow_sensor_data.consumption_per_minute.to_s)
       end
 
       it 'returns status code 200 Success' do
