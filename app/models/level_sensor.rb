@@ -4,7 +4,6 @@ class LevelSensor < ApplicationRecord
 
   validates :pin, presence: true, length: { maximum: 2 }
   validates :volume, presence: true
-  validates :sequence, presence: true, uniqueness: { scope: :ruler_id }
   validate :check_if_pin_already_exists
 
   scope :from_customer, -> (customer) do

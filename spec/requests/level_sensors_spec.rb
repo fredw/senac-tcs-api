@@ -69,7 +69,7 @@ RSpec.describe 'LevelSensor', type: :request do
   end
 
   describe 'POST /level_sensors' do
-    let!(:valid_params) { { pin: 'A2', volume: 2.9, sequence: 1, ruler_id: ruler.id }.to_json }
+    let!(:valid_params) { { pin: 'A2', volume: 2.9, ruler_id: ruler.id }.to_json }
 
     context 'when the request is valid' do
       before { post "/rulers/#{ruler.id}/level_sensors", params: valid_params, headers: headers_admin }
@@ -77,7 +77,6 @@ RSpec.describe 'LevelSensor', type: :request do
       it 'creates a level_sensor' do
         expect(json['data']['attributes']['pin']).to eq('A2')
         expect(json['data']['attributes']['volume']).to eq('2.9')
-        expect(json['data']['attributes']['sequence']).to eq(1)
       end
 
       it 'returns status code 201 Created' do
@@ -111,7 +110,7 @@ RSpec.describe 'LevelSensor', type: :request do
   end
 
   describe 'PUT /level_sensors/:id' do
-    let(:valid_params) { { pin: 'A8', volume: 8.23, sequence: 2 }.to_json }
+    let(:valid_params) { { pin: 'A8', volume: 8.23 }.to_json }
 
     context 'when the record exists' do
       before { put "/level_sensors/#{level_sensor_id}", params: valid_params, headers: headers_admin }
@@ -119,7 +118,6 @@ RSpec.describe 'LevelSensor', type: :request do
       it 'updates the record' do
         expect(json['data']['attributes']['pin']).to eq('A8')
         expect(json['data']['attributes']['volume']).to eq('8.23')
-        expect(json['data']['attributes']['sequence']).to eq(2)
       end
 
       it 'returns status code 200 OK' do

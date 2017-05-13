@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170511173246) do
+ActiveRecord::Schema.define(version: 20170512221711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,14 +53,10 @@ ActiveRecord::Schema.define(version: 20170511173246) do
     t.datetime "updated_at", null: false
     t.uuid "ruler_id"
     t.decimal "volume"
-    t.integer "sequence"
-    t.index ["sequence", "ruler_id"], name: "index_level_sensors_on_sequence_and_ruler_id", unique: true
   end
 
   create_table "level_sensors_data", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.boolean "switched_on"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.uuid "level_sensor_id"
     t.uuid "ruler_data_id"
     t.index ["ruler_data_id", "level_sensor_id"], name: "index_level_sensors_data_on_ruler_data_id_and_level_sensor_id", unique: true

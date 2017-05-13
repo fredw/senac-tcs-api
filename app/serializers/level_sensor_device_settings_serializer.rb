@@ -1,3 +1,3 @@
 class LevelSensorDeviceSettingsSerializer < ActiveModel::Serializer
-  attributes :id, :pin, :sequence
+  attributes :id, :pin
 end

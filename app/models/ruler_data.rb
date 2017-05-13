@@ -13,8 +13,26 @@ class RulerData < ApplicationRecord
   private
 
   def verify_all_sensors
-    if ruler && LevelSensor.where(ruler_id: ruler.id).size != level_sensor_data.size
-      errors.add(:level_sensor_data, 'It\'s necessary to inform all sensors of this ruler')
+    if ruler
+      level_sensors = LevelSensor.where(ruler_id: ruler.id).order(:volume)
+      # Require all sensors to be informed
+      if level_sensors.size != level_sensor_data.size
+        errors.add(:level_sensor_data, 'It\'s necessary to inform all sensors of this ruler')
+        return
+      end
+      # Doesn't allow a previous sensor to be turned off and a later sensor on (considering volume order)
+      any_switched_off = false
+      level_sensors.each do |ls|
+        level_sensor = level_sensor_data.find { |h| h.level_sensor_id == ls.id }
+        if level_sensor.switched_on
+          if any_switched_off && level_sensor.switched_on
+            message = 'It\'s not possible to inform a turned on sensor after a turned off sensor (considering volume order)!'
+            errors.add(:level_sensor_data, message)
+          end
+        else
+          any_switched_off = true
+        end
+      end
     end
   end
 end

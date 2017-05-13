@@ -6,8 +6,8 @@ RSpec.describe 'RulerData', type: :request do
   let(:ruler_data_id) { ruler_data.id }
   let(:ruler) { create(:ruler) }
   let(:ruler_other) { create(:ruler) }
-  let(:level_sensor_1) { create(:level_sensor, ruler: ruler) }
-  let(:level_sensor_2) { create(:level_sensor, ruler: ruler) }
+  let(:level_sensor_1) { create(:level_sensor, ruler: ruler, volume: 5.1) }
+  let(:level_sensor_2) { create(:level_sensor, ruler: ruler, volume: 9.7) }
   let(:headers_admin) { {'Authorization': sign_in(create(:user_admin)), 'Content-Type': 'application/json'} }
 
   describe 'GET /rulers_data' do
@@ -122,6 +122,25 @@ RSpec.describe 'RulerData', type: :request do
 
       it 'returns a validation failure message' do
         expect(json['level_sensor_data']).to eq(['It\'s necessary to inform all sensors of this ruler'])
+      end
+    end
+
+    context 'when the request have a turned on level sensors after a turned off sensor' do
+      let(:invalid_sensor_params) do
+        [
+            { switched_on: false, level_sensor_id: level_sensor_1.id},
+            { switched_on: true, level_sensor_id: level_sensor_2.id}
+        ]
+      end
+      let(:invalid_params) { { ruler_id: ruler.id, level_sensor_data_attributes: invalid_sensor_params }.to_json  }
+      before { post "/rulers/#{ruler.id}/rulers_data", params: invalid_params, headers: headers_admin }
+
+      it 'returns status code 422 Unprocessable Entity' do
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'returns a validation failure message' do
+        expect(json['level_sensor_data']).to eq(['It\'s not possible to inform a turned on sensor after a turned off sensor (considering volume order)!'])
       end
     end
 
