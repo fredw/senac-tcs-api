@@ -3,9 +3,12 @@ module V1
     before_action :authenticate_user!
     before_action :set_reservoir, only: [:show, :update, :destroy]
 
+    has_scope :reservoir_group, only: :index
+    has_scope :search, only: :index
+
     # GET /reservoirs
     def index
-      @reservoirs = policy_scope(Reservoir.order(:reservoir_group_id))
+      @reservoirs = policy_scope(apply_scopes(Reservoir.order(:reservoir_group_id)))
       authorize Reservoir
       paginate json: @reservoirs, include: :reservoir_group
     end
