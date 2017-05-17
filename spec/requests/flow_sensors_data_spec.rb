@@ -39,6 +39,24 @@ RSpec.describe 'FlowSensorData', type: :request do
     end
   end
 
+  describe 'GET /flow_sensors_data_last' do
+    let!(:flow_sensors_data) { create_list(:flow_sensor_data, 10, flow_sensor_id: flow_sensor.id) }
+
+    context 'when user is an admin' do
+      before { get "/flow_sensors/#{flow_sensor.id}/flow_sensors_data_last", headers: headers_admin }
+
+      it 'returns the flow_sensor_data' do
+        expect(json).not_to be_empty
+        expect(json['data']['id']).to eq(flow_sensors_data.last.id)
+        expect(json['data']['consumption_per_minute']).to eq(flow_sensors_data.last.consumption_per_minute.to_s)
+      end
+
+      it 'returns status code 200 Success' do
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
   describe 'GET /flow_sensors_data/:id' do
 
     context 'when the record exists' do
@@ -46,7 +64,8 @@ RSpec.describe 'FlowSensorData', type: :request do
 
       it 'returns the flow_sensor_data' do
         expect(json).not_to be_empty
-        expect(json['data']['id']).to eq(flow_sensor_data_id)
+        expect(json['data']['id']).to eq(flow_sensor_data.id)
+        expect(json['data']['consumption_per_minute']).to eq(flow_sensor_data.consumption_per_minute.to_s)
       end
 
       it 'returns status code 200 Success' do
@@ -104,59 +123,6 @@ RSpec.describe 'FlowSensorData', type: :request do
 
       it 'returns a validation failure message' do
         expect(json['flow_sensor']).to eq(['must exist'])
-      end
-    end
-  end
-
-  describe 'PUT /flow_sensors_data/:id' do
-    let(:valid_params) { { consumption_per_minute: 78.41 }.to_json }
-
-    context 'when the record exists' do
-      before { put "/flow_sensors_data/#{flow_sensor_data_id}", params: valid_params, headers: headers_admin }
-
-      it 'updates the record' do
-        expect(json['data']['attributes']['consumption-per-minute']).to eq('78.41')
-      end
-
-      it 'returns status code 200 OK' do
-        expect(response).to have_http_status(:ok)
-      end
-    end
-
-    context 'when the record does not exist' do
-      let(:flow_sensor_data_id) { 100 }
-      before { put "/flow_sensors_data/#{flow_sensor_data_id}", params: valid_params, headers: headers_admin }
-
-      it 'returns status code 404 Not Found' do
-        expect(response).to have_http_status(:not_found)
-      end
-
-      it 'returns a not found message' do
-        expect(json['error']).to eq("Couldn't find FlowSensorData with 'id'=#{flow_sensor_data_id}")
-      end
-    end
-  end
-
-  describe 'DELETE /flow_sensors_data/:id' do
-
-    context 'when the record exists' do
-      before { delete "/flow_sensors_data/#{flow_sensor_data_id}", headers: headers_admin }
-
-      it 'returns status code 204 No Content' do
-        expect(response).to have_http_status(:no_content)
-      end
-    end
-
-    context 'when the record does not exist' do
-      let(:flow_sensor_data_id) { 100 }
-      before { delete "/flow_sensors_data/#{flow_sensor_data_id}", headers: headers_admin }
-
-      it 'returns status code 404 Not Found' do
-        expect(response).to have_http_status(:not_found)
-      end
-
-      it 'returns a not found message' do
-        expect(json['error']).to eq("Couldn't find FlowSensorData with 'id'=#{flow_sensor_data_id}")
       end
     end
   end

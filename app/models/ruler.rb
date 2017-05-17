@@ -1,6 +1,7 @@
 class Ruler < ApplicationRecord
   belongs_to :device
   has_many :level_sensors, dependent: :destroy
+  has_many :ruler_data, dependent: :destroy
 
   validates :height, presence: true
 

@@ -1,5 +1,5 @@
 class DeviceSerializer < ActiveModel::Serializer
-  attributes :id, :name, :description, :rulers
+  attributes :id, :name, :description
   belongs_to :reservoir
   has_many :flow_sensors, serializer: FlowSensorSerializer
   has_many :rulers, serializer: RulerSerializer

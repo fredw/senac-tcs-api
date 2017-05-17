@@ -10,6 +10,11 @@ Tests
     rspec
 
 
+Ideas
+------------------------------------------------------------
+- Notify users by email when reservoir reaches a certain level
+
+
 Credits
 ------------------------------------------------------------
 

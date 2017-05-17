@@ -14,17 +14,5 @@ RSpec.describe V1::FlowSensorsDataController, type: :routing do
     it 'routes to #create' do
       expect(:post => '/flow_sensors/1/flow_sensors_data').to route_to('v1/flow_sensors_data#create', :flow_sensor_id => '1')
     end
-
-    it 'routes to #update via PUT' do
-      expect(:put => '/flow_sensors_data/1').to route_to('v1/flow_sensors_data#update', :id => '1')
-    end
-
-    it 'routes to #update via PATCH' do
-      expect(:patch => '/flow_sensors_data/1').to route_to('v1/flow_sensors_data#update', :id => '1')
-    end
-
-    it 'routes to #destroy' do
-      expect(:delete => '/flow_sensors_data/1').to route_to('v1/flow_sensors_data#destroy', :id => '1')
-    end
   end
 end

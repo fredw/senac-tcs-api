@@ -1,5 +1,5 @@
 class LevelSensorSerializer < ActiveModel::Serializer
-  attributes :id, :pin, :volume, :sequence
+  attributes :id, :pin, :volume
   belongs_to :ruler
 
   link :self do

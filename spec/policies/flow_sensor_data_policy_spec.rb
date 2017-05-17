@@ -7,7 +7,8 @@ RSpec.describe FlowSensorDataPolicy do
 
   context 'with an admin user' do
     let(:user) { create(:user_admin) }
-    it { is_expected.to permit_actions([:index, :show, :create, :update, :destroy]) }
+    it { is_expected.to permit_actions([:index, :show, :create]) }
+    it { is_expected.to forbid_actions([:update, :destroy]) }
   end
 
   context 'without an admin user' do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170425173500) do
+ActiveRecord::Schema.define(version: 20170512221711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,15 +53,13 @@ ActiveRecord::Schema.define(version: 20170425173500) do
     t.datetime "updated_at", null: false
     t.uuid "ruler_id"
     t.decimal "volume"
-    t.integer "sequence"
-    t.index ["sequence", "ruler_id"], name: "index_level_sensors_on_sequence_and_ruler_id", unique: true
   end
 
   create_table "level_sensors_data", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.boolean "switched_on"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.uuid "level_sensor_id"
+    t.uuid "ruler_data_id"
+    t.index ["ruler_data_id", "level_sensor_id"], name: "index_level_sensors_data_on_ruler_data_id_and_level_sensor_id", unique: true
   end
 
   create_table "reservoir_groups", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -93,6 +91,12 @@ ActiveRecord::Schema.define(version: 20170425173500) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "device_id"
+  end
+
+  create_table "rulers_data", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "ruler_id"
   end
 
   create_table "users", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
@@ -127,10 +131,12 @@ ActiveRecord::Schema.define(version: 20170425173500) do
   add_foreign_key "flow_sensors_data", "flow_sensors"
   add_foreign_key "level_sensors", "rulers"
   add_foreign_key "level_sensors_data", "level_sensors"
+  add_foreign_key "level_sensors_data", "rulers_data"
   add_foreign_key "reservoir_groups", "customers"
   add_foreign_key "reservoirs", "customers"
   add_foreign_key "reservoirs", "reservoir_groups"
   add_foreign_key "rulers", "devices"
+  add_foreign_key "rulers_data", "rulers"
   add_foreign_key "users", "customers"
   add_foreign_key "users", "roles"
 end

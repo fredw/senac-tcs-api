@@ -5,7 +5,7 @@ module V1
 
     # GET /level_sensors
     def index
-      @level_sensors = policy_scope(LevelSensor.where(ruler_id: params[:ruler_id]))
+      @level_sensors = policy_scope(LevelSensor.where(ruler_id: params[:ruler_id]).order(:volume))
       authorize LevelSensor
       paginate json: @level_sensors
     end
@@ -50,7 +50,7 @@ module V1
 
     # Only allow a trusted parameter "white list" through.
     def level_sensor_params
-      params.require(:level_sensor).permit(:pin, :volume, :sequence, :ruler_id)
+      params.require(:level_sensor).permit(:pin, :volume, :ruler_id)
     end
   end
 end

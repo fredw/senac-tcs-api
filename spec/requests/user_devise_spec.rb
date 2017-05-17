@@ -265,8 +265,6 @@ RSpec.describe 'User Devise', type: :request do
       end
 
       it 'returns status code 200 OK' do
-        Rails.logger.info('###1###')
-        Rails.logger.info(json)
         expect(response).to have_http_status(:ok)
       end
     end
