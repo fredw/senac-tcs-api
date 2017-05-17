@@ -12,7 +12,7 @@ module V1
 
     # GET /devices/1
     def show
-      render json: @device
+      render json: @device, include: %w(reservoir, flow_sensors, rulers, rulers.level_sensors)
     end
 
     # POST /devices
